@@ -1,0 +1,108 @@
+const Product = require("../models/productModel");
+const multer = require("multer");
+
+// Set up multer storage for handling file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
+// post: Create Product---------------
+const createProduct = async (req, res) => {
+  try {
+    const productDetails = JSON.parse(req.body.productDetails);
+
+    const newProduct = new Product({
+      name: req.body.name,
+      details: req.body.details,
+      category: req.body.category,
+      subCategory: req.body.subCategory,
+      brand: req.body.brand,
+      price: req.body.price,
+      discount: req.body.discount,
+      warranty: req.body.warranty,
+      totalQuantity: req.body.totalQuantity,
+      minimumOrderQty: req.body.minimumOrderQty,
+      status: req.body.status,
+      productDetails: productDetails,
+    });
+
+    if (req.files && req.files.length > 0) {
+      newProduct.photos = req.files.map((file) => file.path);
+    }
+
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// get: Show All Product---------------
+const getAllProduct = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//delete: Deleted Product---------------
+const deleteProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(deletedProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// update: Updated Product---------------
+const getProductById = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createProduct,
+  upload,
+  getAllProduct,
+  deleteProduct,
+  getProductById,
+  updateProduct,
+};
