@@ -29,6 +29,8 @@ const createProduct = async (req, res) => {
       totalQuantity: req.body.totalQuantity,
       minimumOrderQty: req.body.minimumOrderQty,
       status: req.body.status,
+      newProduct: req.body.newProduct,
+      flashSale: req.body.flashSale,
       productDetails: productDetails,
     });
 
