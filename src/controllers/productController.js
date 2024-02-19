@@ -1,5 +1,8 @@
+const Brand = require("../models/brandModel");
+const Category = require("../models/categoryModel");
 const Product = require("../models/productModel");
 const multer = require("multer");
+const SubCategory = require("../models/subCategoryModel");
 
 // Set up multer storage for handling file uploads
 const storage = multer.diskStorage({
@@ -15,14 +18,29 @@ const upload = multer({ storage: storage });
 // post: Create Product---------------
 const createProduct = async (req, res) => {
   try {
+    const category = await Category.findById(req.body.category);
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const subCategory = await SubCategory.findById(req.body.subCategory);
+    if (!subCategory) {
+      return res.status(404).json({ error: "Sub Category not found" });
+    }
+
+    const brand = await Brand.findById(req.body.brand);
+    if (!brand) {
+      return res.status(404).json({ error: "Brand not found" });
+    }
+
     const productDetails = JSON.parse(req.body.productDetails);
 
     const newProduct = new Product({
       name: req.body.name,
       details: req.body.details,
-      category: req.body.category,
-      subCategory: req.body.subCategory,
-      brand: req.body.brand,
+      category: category,
+      subCategory: subCategory,
+      brand: brand,
       price: req.body.price,
       discount: req.body.discount,
       warranty: req.body.warranty,
@@ -48,7 +66,10 @@ const createProduct = async (req, res) => {
 // get: Show All Product---------------
 const getAllProduct = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find()
+      .populate("category")
+      .populate("subCategory")
+      .populate("brand");
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
