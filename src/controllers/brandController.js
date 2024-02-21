@@ -17,7 +17,6 @@ const createBrand = async (req, res) => {
   try {
     const newBrand = new Brand({
       name: req.body.name,
-      url: req.body.url,
     });
     if (req.file) {
       newBrand.photo = req.file.path;

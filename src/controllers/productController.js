@@ -2,7 +2,6 @@ const Brand = require("../models/brandModel");
 const Category = require("../models/categoryModel");
 const Product = require("../models/productModel");
 const multer = require("multer");
-const SubCategory = require("../models/subCategoryModel");
 
 // Set up multer storage for handling file uploads
 const storage = multer.diskStorage({
@@ -23,11 +22,6 @@ const createProduct = async (req, res) => {
       return res.status(404).json({ error: "Category not found" });
     }
 
-    const subCategory = await SubCategory.findById(req.body.subCategory);
-    if (!subCategory) {
-      return res.status(404).json({ error: "Sub Category not found" });
-    }
-
     const brand = await Brand.findById(req.body.brand);
     if (!brand) {
       return res.status(404).json({ error: "Brand not found" });
@@ -39,7 +33,7 @@ const createProduct = async (req, res) => {
       name: req.body.name,
       details: req.body.details,
       category: category,
-      subCategory: subCategory,
+      subCategory: req.body.subCategory,
       brand: brand,
       price: req.body.price,
       discount: req.body.discount,
@@ -68,7 +62,6 @@ const getAllProduct = async (req, res) => {
   try {
     const products = await Product.find()
       .populate("category")
-      .populate("subCategory")
       .populate("brand");
     res.json(products);
   } catch (error) {

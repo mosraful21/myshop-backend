@@ -17,7 +17,7 @@ const createBanner = async (req, res) => {
   try {
     const newBanner = new Banner({
       title: req.body.title,
-      url: req.body.url,
+      type: req.body.type,
     });
     if (req.file) {
       newBanner.photo = req.file.path;

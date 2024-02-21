@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const brandSchema = new mongoose.Schema({
   name: String,
-  url: String,
   photo: String,
 });
 

@@ -17,8 +17,7 @@ const productSchema = new mongoose.Schema({
   },
 
   subCategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "SubCategory",
+    type: String,
   },
 
   brand: {
@@ -37,7 +36,6 @@ const productSchema = new mongoose.Schema({
 
   warranty: {
     type: String,
-    required: true,
   },
 
   totalQuantity: {
