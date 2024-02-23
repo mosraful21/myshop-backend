@@ -48,6 +48,11 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
 
+  sku: {
+    type: Number,
+    required: true,
+  },
+
   status: {
     type: Boolean,
   },

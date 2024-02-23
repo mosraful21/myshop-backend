@@ -40,6 +40,7 @@ const createProduct = async (req, res) => {
       warranty: req.body.warranty,
       totalQuantity: req.body.totalQuantity,
       minimumOrderQty: req.body.minimumOrderQty,
+      sku: req.body.sku,
       status: req.body.status,
       newProduct: req.body.newProduct,
       flashSale: req.body.flashSale,
