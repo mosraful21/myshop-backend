@@ -9,6 +9,7 @@ const subCategoryRoutes = require("./routes/subCategoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 const brandRoutes = require("./routes/brandRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
+const auth = require("./routes/userRoutes");
 
 const app = express();
 const port = 3000;
@@ -30,6 +31,9 @@ app.use("/api/subCategories", subCategoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/brands", brandRoutes);
 app.use("/api/banner", bannerRoutes);
+
+app.use("/api/register", auth.login);
+app.use("/api/login", auth.register);
 
 app.get("/", (req, res) => {
   res.send("Server is Running");

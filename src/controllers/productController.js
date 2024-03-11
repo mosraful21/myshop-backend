@@ -88,7 +88,9 @@ const deleteProduct = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const productId = req.params.id;
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId)
+      .populate("category")
+      .populate("brand");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }

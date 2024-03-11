@@ -1,73 +1,79 @@
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
 
-  details: {
-    type: String,
-    required: true,
-  },
+    details: {
+      type: String,
+      required: true,
+    },
 
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-  },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
 
-  subCategory: {
-    type: String,
-  },
+    subCategory: {
+      type: String,
+    },
 
-  brand: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Brand",
-  },
+    brand: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brand",
+    },
 
-  price: {
-    type: Number,
-    required: true,
-  },
+    price: {
+      type: Number,
+      required: true,
+    },
 
-  discount: {
-    type: Number,
-  },
+    discount: {
+      type: Number,
+    },
 
-  warranty: {
-    type: String,
-  },
+    warranty: {
+      type: String,
+    },
 
-  totalQuantity: {
-    type: Number,
-    required: true,
-  },
+    totalQuantity: {
+      type: Number,
+      required: true,
+    },
 
-  minimumOrderQty: {
-    type: Number,
-    required: true,
-  },
+    minimumOrderQty: {
+      type: Number,
+      required: true,
+    },
 
-  sku: {
-    type: Number,
-    required: true,
-  },
+    sku: {
+      type: Number,
+      required: true,
+    },
 
-  status: {
-    type: Boolean,
-  },
+    status: {
+      type: Boolean,
+    },
 
-  newProduct: {
-    type: Boolean,
-  },
+    newProduct: {
+      type: Boolean,
+    },
 
-  flashSale: {
-    type: Boolean,
-  },
+    flashSale: {
+      type: Boolean,
+    },
 
-  productDetails: Array,
-  photos: Array,
-});
+    productDetails: Array,
+    photos: Array,
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
 
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;
